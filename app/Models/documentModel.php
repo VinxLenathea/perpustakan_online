@@ -12,9 +12,6 @@ class DocumentModel extends Model
     // Nama tabel
     protected $table = 'documents';
 
-    // Primary Key
-    protected $primaryKey = 'document_id';
-
     // Kolom yang boleh diisi (mass assignment)
     protected $fillable = [
         'title',

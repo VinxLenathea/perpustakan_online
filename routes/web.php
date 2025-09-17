@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/library', [LibraryController::class, 'index'])->name('library');
     Route::post('/library/store', [LibraryController::class, 'store'])->name('library.store');
+    route::delete('/library/{id}', [LibraryController::class, 'destroy'])->name('library.destroy');
 
 });
 

@@ -56,6 +56,14 @@ class LibraryController extends Controller
             'file_url' => $filePath
         ]);
 
-        return redirect()->route('library.index')->with('success', 'Data berhasil ditambahkan!');
+        return redirect()->route('library')->with('success', 'Data berhasil ditambahkan!');
     }
+    public function destroy($id)
+        {
+            $document = DocumentModel::findOrFail($id);
+            $document->delete();
+
+            return redirect()->route('library')->with('success', 'Data berhasil dihapus!');
+        }
+
 }

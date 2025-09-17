@@ -44,44 +44,83 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-               <!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Library</h1>
-</div>
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Library</h1>
+                    </div>
 
-<!-- Search Bar -->
-<div class="card shadow mb-4">
-    <div class="card-body bg-light">
+                    <!-- Search Bar -->
+                    <div class="card shadow mb-4">
+                        <div class="card-body bg-light">
 
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
-            <!-- Form Pencarian -->
-            <form action="{{ route('library') }}" method="GET" class="form-inline mb-2">
-                <!-- Input Kata Kunci -->
-                <input type="text" name="keyword" class="form-control mr-2" placeholder="Kata Kunci" style="min-width:200px;">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                <!-- Form Pencarian -->
+                                <form action="{{ route('library') }}" method="GET" class="form-inline mb-2">
+                                    <!-- Input Kata Kunci -->
+                                    <input type="text" name="keyword" class="form-control mr-2"
+                                        placeholder="Kata Kunci" style="min-width:200px;">
 
-                <!-- Dropdown Kategori -->
-                <select name="filter" class="form-control mr-2">
-                    <option value="judul">Judul</option>
-                    <option value="penulis">Penulis</option>
-                    <option value="tahun">Tahun</option>
-                </select>
+                                    <!-- Dropdown Kategori -->
+                                    <select name="filter" class="form-control mr-2">
+                                        <option value="judul">Judul</option>
+                                        <option value="penulis">Penulis</option>
+                                        <option value="tahun">Tahun</option>
+                                    </select>
 
-                <!-- Tombol Cari -->
-                <button type="submit" class="btn btn-success">Cari</button>
-            </form>
+                                    <!-- Tombol Cari -->
+                                    <button type="submit" class="btn btn-success">Cari</button>
+                                </form>
 
-            <!-- Tombol Tambah Document -->
-            <button class="btn btn-sm btn-success shadow-sm mb-2" data-toggle="modal" data-target="#tambahDocumentModal">
-                <i class="fas fa-plus fa-sm text-white-50"></i> Tambah Document
-            </button>
-        </div>
+                                <!-- Tombol Tambah Document -->
+                                <button class="btn btn-sm btn-success shadow-sm mb-2" data-toggle="modal"
+                                    data-target="#tambahDocumentModal">
+                                    <i class="fas fa-plus fa-sm text-white-50"></i> Tambah Document
+                                </button>
 
-    </div>
-</div>
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Judul</th>
+                                            <th>Kategori</th>
+                                            <th>Tahun</th>
+                                            <th>Pembuat</th>
+                                            <th>File</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($documents as $doc)
+                                            <tr>
+                                                <td>{{ $doc->id }}</td>
+                                                <td>{{ $doc->title }}</td>
+                                                <td>{{ $doc->category->category_name }}</td>
+                                                <td>{{ $doc->year_published }}</td>
+                                                <td>{{ $doc->author }}</td>
+                                                <td><a href="{{ asset('storage/' . $doc->file_url) }}" target="_blank">Lihat
+                                                        File</a></td>
+                                                <td>
+                                                    <button class="btn btn-success">Edit</button>
+                                                    <form action="{{ route('library.destroy', $doc->id) }}" method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button  type="submit" class="btn btn-danger" style="margin-left: 5px">Hapus</button>
+
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
 
 
                     <!-- Modal Tambah Document -->
-                    <div class="modal fade" id="tambahDocumentModal" tabindex="-1" role="dialog" aria-labelledby="tambahDocumentLabel" aria-hidden="true">
+                    <div class="modal fade" id="tambahDocumentModal" tabindex="-1" role="dialog"
+                        aria-labelledby="tambahDocumentLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <form action="{{ route('library.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
@@ -89,7 +128,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="tambahDocumentLabel">Tambah Document</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
+                                            <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
@@ -109,7 +148,8 @@
                                         <!-- Tahun -->
                                         <div class="form-group">
                                             <label for="year_published">Tahun Terbit</label>
-                                            <input type="number" class="form-control" name="year_published" min="1900" max="2099" required>
+                                            <input type="number" class="form-control" name="year_published"
+                                                min="1900" max="2099" required>
                                         </div>
 
                                         <!-- Kategori -->
@@ -117,8 +157,9 @@
                                             <label for="category_id">Kategori</label>
                                             <select class="form-control" name="category_id" required>
                                                 <option value="">-- Pilih Kategori --</option>
-                                                @foreach($categories as $cat)
-                                                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                                @foreach ($categories as $cat)
+                                                    <option value="{{ $cat->id }}">{{ $cat->category_name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -128,7 +169,7 @@
                                             <label for="subcategory_id">Sub Kategori</label>
                                             <select class="form-control" name="subcategory_id">
                                                 <option value="">-- Pilih Sub Kategori (opsional) --</option>
-                                                @foreach($subcategories as $sub)
+                                                @foreach ($subcategories as $sub)
                                                     <option value="{{ $sub->id }}">{{ $sub->name }}</option>
                                                 @endforeach
                                             </select>
@@ -137,12 +178,14 @@
                                         <!-- Upload File -->
                                         <div class="form-group">
                                             <label for="file">Upload File (PDF/Doc)</label>
-                                            <input type="file" class="form-control" name="file" accept=".pdf,.doc,.docx" required>
+                                            <input type="file" class="form-control" name="file"
+                                                accept=".pdf,.doc,.docx" required>
                                         </div>
 
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Batal</button>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </div>
@@ -220,4 +263,3 @@
 </body>
 
 </html>
-
