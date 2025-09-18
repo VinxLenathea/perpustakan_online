@@ -45,17 +45,17 @@
                                         @csrf
                                         <div class="form-group" for="email">
                                             <x-input-label for="email" :value="__('Email')" />
-                                            <x-text-input id="email" class="form-control form-control-user" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Enter Email Address..." />
+                                            <x-text-input id="email" class="form-control form-control-user"
+                                                type="email" name="email" :value="old('email')" required autofocus
+                                                autocomplete="username" placeholder="Enter Email Address..." />
                                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                         </div>
                                         <div class="form-group" for="password">
                                             <x-input-label for="password" :value="__('Password')" />
 
                                             <x-text-input id="password" class="form-control form-control-user"
-                                                            type="password"
-                                                            name="password"
-                                                            placeholder="Password"
-                                                            required autocomplete="current-password" />
+                                                type="password" name="password" placeholder="Password" required
+                                                autocomplete="current-password" />
 
                                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                         </div>
@@ -79,10 +79,10 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small" href="{{ route('password.request')}}">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="{{ route('register') }}">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>
