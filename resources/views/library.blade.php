@@ -114,6 +114,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <!-- ✅ Pagination -->
+                            <div class="d-flex justify-content-center">
+                                {{ $documents->onEachSide(1)->links('pagination::bootstrap-4') }}
+                            </div>
+
                         </div>
                     </div>
 
