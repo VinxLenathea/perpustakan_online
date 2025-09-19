@@ -218,17 +218,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="subcategory_id">Sub Kategori</label>
-                                                <select class="form-control" name="subcategory_id">
-                                                    <option value="">-- Pilih Sub Kategori (opsional) --</option>
-                                                    @foreach ($subcategories as $sub)
-                                                        <option value="{{ $sub->id }}" {{ $doc->subcategory_id == $sub->id ? 'selected' : '' }}>
-                                                            {{ $sub->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+
                                             <div class="form-group">
                                                 <label for="file">Ganti File (Opsional)</label>
                                                 <input type="file" class="form-control" name="file" accept=".pdf,.doc,.docx">

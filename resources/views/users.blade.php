@@ -41,39 +41,13 @@
                         <h1 class="h3 mb-0 text-gray-800">User Management</h1>
                     </div>
 
-                    <!-- Search Bar -->
+                    <!-- Data User -->
                     <div class="card shadow mb-4">
                         <div class="card-body bg-light">
                             <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                <!-- Form Pencarian -->
-                                <form action="{{ route('library') }}" method="GET" class="form-inline mb-2">
-                                    <input type="text" name="keyword" class="form-control mr-2"
-                                        placeholder="Kata Kunci" value="{{ request('keyword') }}"
-                                        style="min-width:200px;">
-
-                                    <select name="filter" class="form-control mr-2">
-                                        <option value="judul" {{ request('filter') == 'judul' ? 'selected' : '' }}>
-                                            Judul</option>
-                                        <option value="penulis" {{ request('filter') == 'penulis' ? 'selected' : '' }}>
-                                            Penulis</option>
-                                        <option value="tahun" {{ request('filter') == 'tahun' ? 'selected' : '' }}>
-                                            Tahun</option>
-                                    </select>
-
-                                    <select name="category_id" class="form-control mr-2">
-                                        <option value="">Semua Kategori</option>
-
-
-
-                                    </select>
-
-                                    <button type="submit" class="btn btn-success">Cari</button>
-                                </form>
-
-
-                                <!-- Tombol Tambah Document -->
+                                <!-- Tombol Tambah User -->
                                 <button class="btn btn-sm btn-success shadow-sm mb-2" data-toggle="modal"
-                                    data-target="#tambahDocumentModal">
+                                    data-target="#tambahUserModal">
                                     <i class="fas fa-plus fa-sm text-white-50"></i> Tambah User
                                 </button>
                             </div>
@@ -94,42 +68,87 @@
                                             <td>{{ $user->id }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
-
                                             <td>
                                                 <!-- Tombol Edit -->
-                                                <button class="btn btn-success" data-toggle="modal"
-                                                    data-target="#editDocumentModal{{ $user->id }}">Edit</button>
+                                                <button class="btn btn-success btn-sm" data-toggle="modal"
+                                                    data-target="#editUserModal{{ $user->id }}">Edit</button>
 
                                                 <!-- Tombol Hapus -->
                                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST"
                                                     style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger"
-                                                        style="margin-left: 5px">Hapus</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Yakin ingin hapus user ini?')">Hapus</button>
                                                 </form>
                                             </td>
                                         </tr>
+
+                                        <!-- Modal Edit User -->
+                                        <div class="modal fade" id="editUserModal{{ $user->id }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="editUserLabel{{ $user->id }}"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <form action="{{ route('users.update', $user->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editUserLabel{{ $user->id }}">
+                                                                Edit User</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- Form Edit -->
+                                                            <div class="form-group">
+                                                                <label for="name">Nama</label>
+                                                                <input type="text" class="form-control" name="name"
+                                                                    value="{{ $user->name }}" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="email">Email</label>
+                                                                <input type="email" class="form-control" name="email"
+                                                                    value="{{ $user->email }}" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="password">Password (Opsional)</label>
+                                                                <input type="password" class="form-control" name="password"
+                                                                    placeholder="Kosongkan jika tidak ingin mengganti password">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="password_confirmation">Konfirmasi Password</label>
+                                                                <input type="password" class="form-control"
+                                                                    name="password_confirmation"
+                                                                    placeholder="Ulangi password baru jika diganti">
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-primary">Update</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </tbody>
                             </table>
-                            <!-- ✅ Pagination -->
-                            <div class="d-flex justify-content-center">
-
-                            </div>
-
                         </div>
                     </div>
 
-                    <!-- Modal Tambah Document -->
-                    <div class="modal fade" id="tambahDocumentModal" tabindex="-1" role="dialog"
-                        aria-labelledby="tambahDocumentLabel" aria-hidden="true">
+                    <!-- Modal Tambah User -->
+                    <div class="modal fade" id="tambahUserModal" tabindex="-1" role="dialog"
+                        aria-labelledby="tambahUserLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
-                            <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('users.store') }}" method="POST">
                                 @csrf
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="tambahDocumentLabel">Tambah User</h5>
+                                        <h5 class="modal-title" id="tambahUserLabel">Tambah User</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -150,76 +169,14 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="password_confirmation">Konfirmasi Password</label>
-                                            <input type="password" class="form-control" name="password_confirmation" required>
+                                            <input type="password" class="form-control" name="password_confirmation"
+                                                required>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Batal</button>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Modal Edit Document (Per Document) -->
-
-                    <div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby=""
-                        aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <form action="" method="POST" enctype="multipart/form-data">
-
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="">Edit Document</h5>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- Form Edit -->
-                                        <div class="form-group">
-                                            <label for="title">Judul</label>
-                                            <input type="text" class="form-control" name="title" value=""
-                                                required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="author">Penulis</label>
-                                            <input type="text" class="form-control" name="author" value=""
-                                                required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="year_published">Tahun Terbit</label>
-                                            <input type="number" class="form-control" name="year_published"
-                                                value="" min="1900" max="2099" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="category_id">Kategori</label>
-                                            <select class="form-control" name="category_id" required>
-
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="subcategory_id">Sub Kategori</label>
-                                            <select class="form-control" name="subcategory_id">
-                                                <option value="">-- Pilih Sub Kategori (opsional) --</option>
-
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="file">Ganti File (Opsional)</label>
-                                            <input type="file" class="form-control" name="file"
-                                                accept=".pdf,.doc,.docx">
-                                            <small class="text-muted">Kosongkan jika tidak ingin mengganti
-                                                file.</small>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-primary">Update</button>
                                     </div>
                                 </div>
                             </form>
@@ -235,7 +192,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Your Website 2025</span>
                     </div>
                 </div>
             </footer>
@@ -247,37 +204,11 @@
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Logout</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="assets/vendor/jquery/jquery.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="assets/js/sb-admin-2.min.js"></script>
-    <script src="assets/vendor/chart.js/Chart.min.js"></script>
-    <script src="assets/js/demo/chart-area-demo.js"></script>
-    <script src="assets/js/demo/chart-pie-demo.js"></script>
 </body>
 
 </html>

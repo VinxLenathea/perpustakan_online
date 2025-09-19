@@ -97,7 +97,7 @@ class LibraryController extends Controller
         $categories = CategoryModel::all();
         $subcategories = SubcategoryModel::all();
 
-        return view('library_edit', compact('document', 'categories', 'subcategories'));
+        return view('library_edit', compact('document', 'categories'));
     }
 
     /**

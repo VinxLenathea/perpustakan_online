@@ -29,6 +29,11 @@
             <li class="nav-item">
                 </a><li class="nav-item">
                      <a class="nav-link" href="{{ route('library') }}">
+                     <i class="fas fa-users"></i>
+                     <span>Users</span>
+                </a>
+                </a><li class="nav-item">
+                     <a class="nav-link" href="{{ route('library') }}">
                      <i class="fas fa-book"></i>
                      <span>Library</span>
                 </a>
