@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');// form edit
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update'); // update data user
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy'); // hapus user
+    // Dashboard
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
 });
 
 require __DIR__.'/auth.php';

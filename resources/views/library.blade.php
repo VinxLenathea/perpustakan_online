@@ -11,7 +11,9 @@
 
     <!-- Custom fonts for this template-->
     <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
@@ -44,33 +46,37 @@
                         <div class="card-body bg-light">
                             <div class="d-flex justify-content-between align-items-center flex-wrap">
                                 <!-- Form Pencarian -->
-                               <form action="{{ route('library') }}" method="GET" class="form-inline mb-2">
-                                <input type="text" name="keyword" class="form-control mr-2"
-                                    placeholder="Kata Kunci"
-                                    value="{{ request('keyword') }}"
-                                    style="min-width:200px;">
+                                <form action="{{ route('library') }}" method="GET" class="form-inline mb-2">
+                                    <input type="text" name="keyword" class="form-control mr-2"
+                                        placeholder="Kata Kunci" value="{{ request('keyword') }}"
+                                        style="min-width:200px;">
 
-                                <select name="filter" class="form-control mr-2">
-                                    <option value="judul" {{ request('filter') == 'judul' ? 'selected' : '' }}>Judul</option>
-                                    <option value="penulis" {{ request('filter') == 'penulis' ? 'selected' : '' }}>Penulis</option>
-                                    <option value="tahun" {{ request('filter') == 'tahun' ? 'selected' : '' }}>Tahun</option>
-                                </select>
+                                    <select name="filter" class="form-control mr-2">
+                                        <option value="judul" {{ request('filter') == 'judul' ? 'selected' : '' }}>
+                                            Judul</option>
+                                        <option value="penulis" {{ request('filter') == 'penulis' ? 'selected' : '' }}>
+                                            Penulis</option>
+                                        <option value="tahun" {{ request('filter') == 'tahun' ? 'selected' : '' }}>
+                                            Tahun</option>
+                                    </select>
 
-                                <select name="category_id" class="form-control mr-2">
-                                    <option value="">Semua Kategori</option>
-                                    @foreach ($categories as $cat)
-                                        <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>
-                                            {{ $cat->category_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                    <select name="category_id" class="form-control mr-2">
+                                        <option value="">Semua Kategori</option>
+                                        @foreach ($categories as $cat)
+                                            <option value="{{ $cat->id }}"
+                                                {{ request('category_id') == $cat->id ? 'selected' : '' }}>
+                                                {{ $cat->category_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
 
-                                <button type="submit" class="btn btn-success">Cari</button>
-                            </form>
+                                    <button type="submit" class="btn btn-success">Cari</button>
+                                </form>
 
 
                                 <!-- Tombol Tambah Document -->
-                                <button class="btn btn-sm btn-success shadow-sm mb-2" data-toggle="modal" data-target="#tambahDocumentModal">
+                                <button class="btn btn-sm btn-success shadow-sm mb-2" data-toggle="modal"
+                                    data-target="#tambahDocumentModal">
                                     <i class="fas fa-plus fa-sm text-white-50"></i> Tambah Document
                                 </button>
                             </div>
@@ -96,19 +102,21 @@
                                             <td>{{ $doc->category->category_name }}</td>
                                             <td>{{ $doc->year_published }}</td>
                                             <td>{{ $doc->author }}</td>
-                                            <td><a href="{{ asset('storage/' . $doc->file_url) }}" target="_blank">Lihat File</a>
-</td>
+                                            <td><a href="{{ asset('storage/' . $doc->file_url) }}"
+                                                    target="_blank">Lihat File</a>
+                                            </td>
 
                                             <td>
                                                 <!-- Tombol Edit -->
-                                                <button class="btn btn-success" data-toggle="modal" data-target="#editDocumentModal{{ $doc->id }}">Edit</button>
+                                                <button class="btn btn-success btn-sm" data-toggle="modal"
+                                                    data-target="#editDocumentModal{{ $doc->id }}">Edit</button>
 
                                                 <!-- Tombol Hapus -->
-                                                <form action="{{ route('library.destroy', $doc->id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger" style="margin-left: 5px">Hapus</button>
-                                                </form>
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#confirmModal"
+                                                    data-url="{{ route('library.destroy', $doc->id) }}">
+                                                    Hapus
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -123,7 +131,8 @@
                     </div>
 
                     <!-- Modal Tambah Document -->
-                    <div class="modal fade" id="tambahDocumentModal" tabindex="-1" role="dialog" aria-labelledby="tambahDocumentLabel" aria-hidden="true">
+                    <div class="modal fade" id="tambahDocumentModal" tabindex="-1" role="dialog"
+                        aria-labelledby="tambahDocumentLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <form action="{{ route('library.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
@@ -146,14 +155,16 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="year_published">Tahun Terbit</label>
-                                            <input type="number" class="form-control" name="year_published" min="1900" max="2099" required>
+                                            <input type="number" class="form-control" name="year_published"
+                                                min="1900" max="2099" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="category_id">Kategori</label>
                                             <select class="form-control" name="category_id" required>
                                                 <option value="">-- Pilih Kategori --</option>
                                                 @foreach ($categories as $cat)
-                                                    <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
+                                                    <option value="{{ $cat->id }}">{{ $cat->category_name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -168,11 +179,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="file">Upload File (PDF,PNG)</label>
-                                            <input type="file" class="form-control" name="file" accept=".pdf,.png" required>
+                                            <input type="file" class="form-control" name="file"
+                                                accept=".pdf,.png" required>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Batal</button>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </div>
@@ -182,15 +195,20 @@
 
                     <!-- Modal Edit Document (Per Document) -->
                     @foreach ($documents as $doc)
-                        <div class="modal fade" id="editDocumentModal{{ $doc->id }}" tabindex="-1" role="dialog" aria-labelledby="editDocumentLabel{{ $doc->id }}" aria-hidden="true">
+                        <div class="modal fade" id="editDocumentModal{{ $doc->id }}" tabindex="-1"
+                            role="dialog" aria-labelledby="editDocumentLabel{{ $doc->id }}"
+                            aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                                <form action="{{ route('library.update', $doc->id) }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('library.update', $doc->id) }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="editDocumentLabel{{ $doc->id }}">Edit Document</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <h5 class="modal-title" id="editDocumentLabel{{ $doc->id }}">Edit
+                                                Document</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -198,21 +216,26 @@
                                             <!-- Form Edit -->
                                             <div class="form-group">
                                                 <label for="title">Judul</label>
-                                                <input type="text" class="form-control" name="title" value="{{ $doc->title }}" required>
+                                                <input type="text" class="form-control" name="title"
+                                                    value="{{ $doc->title }}" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="author">Penulis</label>
-                                                <input type="text" class="form-control" name="author" value="{{ $doc->author }}" required>
+                                                <input type="text" class="form-control" name="author"
+                                                    value="{{ $doc->author }}" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="year_published">Tahun Terbit</label>
-                                                <input type="number" class="form-control" name="year_published" value="{{ $doc->year_published }}" min="1900" max="2099" required>
+                                                <input type="number" class="form-control" name="year_published"
+                                                    value="{{ $doc->year_published }}" min="1900" max="2099"
+                                                    required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="category_id">Kategori</label>
                                                 <select class="form-control" name="category_id" required>
                                                     @foreach ($categories as $cat)
-                                                        <option value="{{ $cat->id }}" {{ $doc->category_id == $cat->id ? 'selected' : '' }}>
+                                                        <option value="{{ $cat->id }}"
+                                                            {{ $doc->category_id == $cat->id ? 'selected' : '' }}>
                                                             {{ $cat->category_name }}
                                                         </option>
                                                     @endforeach
@@ -221,12 +244,15 @@
 
                                             <div class="form-group">
                                                 <label for="file">Ganti File (Opsional)</label>
-                                                <input type="file" class="form-control" name="file" accept=".pdf,.doc,.docx">
-                                                <small class="text-muted">Kosongkan jika tidak ingin mengganti file.</small>
+                                                <input type="file" class="form-control" name="file"
+                                                    accept=".pdf,.doc,.docx">
+                                                <small class="text-muted">Kosongkan jika tidak ingin mengganti
+                                                    file.</small>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Batal</button>
                                             <button type="submit" class="btn btn-primary">Update</button>
                                         </div>
                                     </div>
@@ -256,7 +282,8 @@
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -277,6 +304,49 @@
         </div>
     </div>
 
+    <!-- Modal Konfirmasi (reusable) -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Yakin untuk menghapus file?</h5>
+                    <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    File ini akan dihapus secara permanen. Tekan <b>"Hapus"</b> untuk melanjutkan.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+
+                    <!-- Form dinamis -->
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (session('success'))
+        <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content text-center shadow-lg border-0 rounded animate__animated animate__zoomIn">
+                    <div class="modal-body p-4">
+                        <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                        <h5 class="text-success">{{ session('success') }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="assets/vendor/jquery/jquery.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -285,5 +355,27 @@
     <script src="assets/vendor/chart.js/Chart.min.js"></script>
     <script src="assets/js/demo/chart-area-demo.js"></script>
     <script src="assets/js/demo/chart-pie-demo.js"></script>
+    <script>
+        $('#confirmModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Tombol yang diklik
+            var url = button.data('url') // Ambil data-url dari tombol
+            var form = $(this).find('#deleteForm')
+            form.attr('action', url) // Set action form
+        })
+    </script>
+    <script>
+        @if (session('success'))
+            $(document).ready(function() {
+                let modal = $('#successModal');
+                modal.modal('show');
+
+                // Tutup otomatis setelah 2.5 detik
+                setTimeout(function() {
+                    modal.modal('hide');
+                }, 2500);
+            });
+        @endif
+    </script>
 </body>
+
 </html>

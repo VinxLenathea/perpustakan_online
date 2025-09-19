@@ -74,13 +74,14 @@
                                                     data-target="#editUserModal{{ $user->id }}">Edit</button>
 
                                                 <!-- Tombol Hapus -->
-                                                <form action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                                    style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Yakin ingin hapus user ini?')">Hapus</button>
-                                                </form>
+
+
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#confirmModal"
+                                                    data-url="{{ route('users.destroy', $user->id) }}">
+                                                    Hapus
+                                                </button>
+
                                             </td>
                                         </tr>
 
@@ -94,7 +95,8 @@
                                                     @method('PUT')
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="editUserLabel{{ $user->id }}">
+                                                            <h5 class="modal-title"
+                                                                id="editUserLabel{{ $user->id }}">
                                                                 Edit User</h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
@@ -105,21 +107,24 @@
                                                             <!-- Form Edit -->
                                                             <div class="form-group">
                                                                 <label for="name">Nama</label>
-                                                                <input type="text" class="form-control" name="name"
-                                                                    value="{{ $user->name }}" required>
+                                                                <input type="text" class="form-control"
+                                                                    name="name" value="{{ $user->name }}" required>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="email">Email</label>
-                                                                <input type="email" class="form-control" name="email"
-                                                                    value="{{ $user->email }}" required>
+                                                                <input type="email" class="form-control"
+                                                                    name="email" value="{{ $user->email }}"
+                                                                    required>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="password">Password (Opsional)</label>
-                                                                <input type="password" class="form-control" name="password"
+                                                                <input type="password" class="form-control"
+                                                                    name="password"
                                                                     placeholder="Kosongkan jika tidak ingin mengganti password">
                                                             </div>
                                                             <div class="form-group">
-                                                                <label for="password_confirmation">Konfirmasi Password</label>
+                                                                <label for="password_confirmation">Konfirmasi
+                                                                    Password</label>
                                                                 <input type="password" class="form-control"
                                                                     name="password_confirmation"
                                                                     placeholder="Ulangi password baru jika diganti">
@@ -128,7 +133,8 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary">Update</button>
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Update</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -149,7 +155,8 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="tambahUserLabel">Tambah User</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -201,6 +208,47 @@
     </div>
     <!-- End of Page Wrapper -->
 
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Yakin untuk menghapus user?</h5>
+                    <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    User ini akan dihapus secara permanen. Tekan <b>"Hapus"</b> untuk melanjutkan.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+
+                    <!-- Form dinamis -->
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (session('success'))
+        <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content text-center shadow-lg border-0 rounded animate__animated animate__zoomIn">
+                    <div class="modal-body p-4">
+                        <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                        <h5 class="text-success">{{ session('success') }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
 
@@ -209,6 +257,28 @@
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="assets/js/sb-admin-2.min.js"></script>
+    <script>
+        $('#confirmModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Tombol yang diklik
+            var url = button.data('url') // Ambil data-url dari tombol
+            var form = $(this).find('#deleteForm')
+            form.attr('action', url) // Set action form
+        })
+    </script>
+    <script>
+    @if(session('success'))
+        $(document).ready(function() {
+            let modal = $('#successModal');
+            modal.modal('show');
+
+            // Tutup otomatis setelah 2.5 detik
+            setTimeout(function() {
+                modal.modal('hide');
+            }, 2500);
+        });
+    @endif
+</script>
+
 </body>
 
 </html>
