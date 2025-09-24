@@ -24,13 +24,13 @@
         background-color: #001f3f !important; /* Navy utama */
     }
     .navbar-custom .nav-link {
-        color: white !important;
+        color: FED16A !important;
     }
     .navbar-custom .dropdown-menu {
         background-color: #002147; /* Navy lebih terang */
     }
     .navbar-custom .dropdown-item {
-        color: white;
+        color:FED16A;
     }
     .navbar-custom .dropdown-item:hover {
         background-color: #001633; /* Hover lebih gelap */
@@ -56,32 +56,50 @@
     .text-success {
         color: #001f3f !important; /* Ikon & teks jadi navy */
     }
+    .search-bar {
+    background-color: #001f3f; /* Navy utama */
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px; /* opsional biar lebih halus */
+}
+
 </style>
 
     @endif
 </head>
 <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18]">
 
-    <!-- Top Bar -->
-    <div class="top-bar d-flex justify-content-end align-items-center">
-         <!-- Logo -->
-            <div class="col-md-4 d-flex align-items-center">
-                <img src="assets/img/logo rsmn.png" alt="Logo Perpustakaan" width="100" height="100" class="me-3">
-                <h5 class="m-0 text-success">Perpustakaan online</h5>
-            </div>
-
-        <a href="#" class="me-3 text-decoration-none text-dark">
-            <i class="fas fa-map-marker-alt me-1 text-success"></i> Jl. Bonorogo No.17 Pamekasan
-        </a>
-        <a href="tel:+6281234567890" class="me-3 text-decoration-none text-dark">
-             <i class="fas fa-phone-alt me-1 text-success"></i>+62812-3079-7005
-        </a>
-
-        <a href="{{ route('login') }}" class="btn btn-success btn-sm">
-    Log In
-</a>
-
+ <!-- Top Bar -->
+<div class="top-bar d-flex justify-content-between align-items-center">
+    <!-- Logo di kiri -->
+    <div class="d-flex align-items-center">
+        <img src="assets/img/logo rsmn.png" alt="Logo Perpustakaan" width="100" height="100" class="me-2">
+        <h5 class="m-0 text-success">Perpustakaan online RSMN</h5>
     </div>
+
+    <!-- Kontak dan Login di kanan -->
+<div class="d-flex align-items-center">
+    <a href="#" class="me-3 text-decoration-none text-dark">
+        <i class="fas fa-map-marker-alt me-1 text-success"></i> Jl. Bonorogo No.17 Pamekasan
+    </a>
+    <a href="tel:+6281234567890" class="me-3 text-decoration-none text-dark">
+        <i class="fas fa-phone-alt me-1 text-success"></i>+62812-3079-7005
+    </a>
+
+    <!-- Dropdown Login/Register -->
+    <div class="dropdown">
+        <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Akun
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
+            <li><a class="dropdown-item" href="{{ route('register') }}">Register</a></li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
 
     <!-- Logo & Search Section -->
     <div class="container-fluid">
@@ -89,27 +107,27 @@
 
             <!-- Search -->
             <div class="col-md-8" height="80">
-                <form class="d-flex align-items-center justify-content-center">
-                    <span class="me-2">Search the</span>
-                    <select class="form-select form-select-sm me-2" style="width: auto;">
-                        <option>Judul</option>
-                        <option>Penulis</option>
-                        <option>Tahun</option>
-                    </select>
-                    <span class="me-2">by</span>
-                    <select class="form-select form-select-sm me-2" style="width: auto;">
-                        <option>Karya Tulis Ilmiah</option>
-                        <option>Poster</option>
-                        <option>Penelitian Eksternal</option>
-                        <option>Penelitian Internal</option>
-                    </select>
-                    <input type="text" class="form-control form-control-sm me-2" style="width: 200px;" placeholder="Enter search terms...">
-                    <button class="btn btn-outline-secondary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+    <form class="d-flex align-items-center justify-content-center text-white">
+        <span class="me-2">Search the</span>
+        <select class="form-select form-select-sm me-2" style="width: auto;">
+            <option>Judul</option>
+            <option>Penulis</option>
+            <option>Tahun</option>
+        </select>
+        <span class="me-2">by</span>
+        <select class="form-select form-select-sm me-2" style="width: auto;">
+            <option>Karya Tulis Ilmiah</option>
+            <option>Poster</option>
+            <option>Penelitian Eksternal</option>
+            <option>Penelitian Internal</option>
+        </select>
+        <input type="text" class="form-control form-control-sm me-2" style="width: 200px;" placeholder="Enter search terms...">
+        <button class="btn btn-outline-light" type="submit">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
+</div>
 
-            </div>
         </div>
     </div>
 
